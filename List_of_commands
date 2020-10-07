@@ -1,0 +1,47 @@
+
+#replace this one if stuck at 51% C:\laragon\www\magento\vendor\magento\framework\Image\Adapter\Gd2.php
+
+    private function validateURLScheme(string $filename) : bool
+    {
+        $allowed_schemes = ['ftp', 'ftps', 'http', 'https'];
+        $url = parse_url($filename);
+        if ($url && isset($url['scheme']) && !in_array($url['scheme'], $allowed_schemes) && !file_exists($filename)) {
+            return false;
+        }
+  
+        return true;
+    }
+   
+
+
+
+#replace file on \magento\vendor\magento\framework\View\Element\Template\File\Validator.php line 134
+
+protected function isPathInDirectories($path, $directories)
+{
+    $realPath = str_replace('\\', '/', $this->fileDriver->getRealPath($path));
+    if (!is_array($directories)) {
+        $directories = (array)$directories;
+    }
+    foreach ($directories as $directory) {
+        if (0 === strpos($realPath, $directory)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+#replace C:\laragon\www\magento\app\etc\di.xml on line 724
+
+ <item name="view_preprocessed" xsi:type="object">Magento\Framework\App\View\Asset\MaterializationStrategy\Copy</item>
+
+
+#basic commands may help when some problems accure after fresh installing.
+#run this command if the layout and design not working
+php bin/magento indexers:reindex 
+
+#run this if stuck on loading after installation
+
+php bin/magento setup:static-content:deploy
+php bin/magento setup:static-content:deploy -f 
+
