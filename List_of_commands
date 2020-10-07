@@ -1,4 +1,15 @@
+#for magento 2.3.*
+#download a zip file of project paste it on htdocs or www if using laragon. Directory_Ex:C:\laragon\www\magento2
+#system requirements 
+PHP version 7.2.*
+#enable this on php.ini file
+	extension=soap
+	extension=sockets
+ #open it on browser in my cased http://localhost/magento24/
+ #follow installation guide
 
+##if has an error   Unable to apply data patch Magento\Theme\Setup\Patch\Data\RegisterThemes for module Magento_Theme. Original exception message or  Wrong file
+#or stuck on 51%
 #replace this one if stuck at 51% C:\laragon\www\magento\vendor\magento\framework\Image\Adapter\Gd2.php
 
     private function validateURLScheme(string $filename) : bool
@@ -12,9 +23,7 @@
         return true;
     }
    
-
-
-
+#if admin is black screen admin url
 #replace file on \magento\vendor\magento\framework\View\Element\Template\File\Validator.php line 134
 
 protected function isPathInDirectories($path, $directories)
@@ -31,17 +40,19 @@ protected function isPathInDirectories($path, $directories)
     return false;
 }
 
-#replace C:\laragon\www\magento\app\etc\di.xml on line 724
-
+#if logo or layout issues go to C:\laragon\www\magento\app\etc\di.xml  find " <item name="default" xsi:type="object">Magento\Framework\App\View\Asset\MaterializationStrategy\Copy</item>" and replace it 
  <item name="view_preprocessed" xsi:type="object">Magento\Framework\App\View\Asset\MaterializationStrategy\Copy</item>
 
 
-#basic commands may help when some problems accure after fresh installing.
-#run this command if the layout and design not working
+#basic commands that will help on some basic issues like one or more indexer are running, clean cache or flush
+
 php bin/magento indexers:reindex 
-
-#run this if stuck on loading after installation
-
+php bin/magento cache:clean
+#shortcommand
+php bin/magento c:c
+php bin/magento cache:flush
 php bin/magento setup:static-content:deploy
-php bin/magento setup:static-content:deploy -f 
+php bin/magento setup:static-content:deploy -f  command to force
+#shortcommand
+php bin/magento c:f
 
