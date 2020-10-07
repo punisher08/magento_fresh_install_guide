@@ -1,0 +1,65 @@
+#Installing magento 2.4.*
+#download a here https://magento.com/tech-resources/download#archive-releases
+#save the zip file , in my case i saved it on "C:\laragon\www\magento24"
+#then open cmd on your directory path copy this and modify with your credentials
+
+php bin/magento setup:install --base-url="http://localhost/magento24" --db-host="localhost" --db-name="magento24" --db-user="root" --db-password="" --admin-firstname="admin" --admin-lastname="admin" --a
+dmin-email="usertes@mail.com" --admin-user="admin" --admin-password="admin123" --use-rewrites="1" --backend-frontname="admin"
+
+system requirements:
+#PHP version 7.4.* is supported in my case PHP version 7.2.* is not supported
+#enable this on php.ini file
+	extension=soap
+	extension=sockets
+	extension=php_sockets.dll
+
+
+#if has an error   Unable to apply data patch Magento\Theme\Setup\Patch\Data\RegisterThemes for module Magento_Theme. Original exception message or  Wrong file
+replace this one stuck at 51% C:\laragon\www\magento\vendor\magento\framework\Image\Adapter\Gd2.php
+
+    private function validateURLScheme(string $filename) : bool
+    {
+        $allowed_schemes = ['ftp', 'ftps', 'http', 'https'];
+        $url = parse_url($filename);
+        if ($url && isset($url['scheme']) && !in_array($url['scheme'], $allowed_schemes) && !file_exists($filename)) {
+            return false;
+        }
+  
+        return true;
+    }
+
+#if admin is black screen admin url :replace file on C:\laragon\www\magento\vendor\magento\framework\View\Element\Template\File\Validator.php line 134
+
+
+protected function isPathInDirectories($path, $directories)
+{
+    $realPath = str_replace('\\', '/', $this->fileDriver->getRealPath($path));
+    if (!is_array($directories)) {
+        $directories = (array)$directories;
+    }
+    foreach ($directories as $directory) {
+        if (0 === strpos($realPath, $directory)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+#if the design or logo is has error replace C:\laragon\www\magento\app\etc\di.xml on line 724
+ <item name="view_preprocessed" xsi:type="object">Magento\Framework\App\View\Asset\MaterializationStrategy\Copy</item>
+
+#if you want to disable 2F authentication
+php bin/magento module:disable Magento_TwoFactorAuth
+
+#basic commands that will help on some basic issues like one or more indexer are running, clean cache or flush
+
+php bin/magento indexers:reindex 
+php bin/magento cache:clean
+#shortcommand
+php bin/magento c:c
+php bin/magento cache:flush
+php bin/magento setup:static-content:deploy
+php bin/magento setup:static-content:deploy -f  command to force
+#shortcommand
+php bin/magento c:f
+
