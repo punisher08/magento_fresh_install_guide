@@ -53,7 +53,7 @@ php bin/magento module:disable Magento_TwoFactorAuth
 
 #basic commands that will help on some basic issues like one or more indexer are running, clean cache or flush
 
-php bin/magento indexers:reindex 
+php bin/magento indexer:reindex 
 php bin/magento cache:clean
 #shortcommand
 php bin/magento c:c
